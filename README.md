@@ -13,7 +13,7 @@ An automated Accounts Payable (AP) ingestion pipeline built with **Make.com**, *
    - **Total Amount < $1,000 SGD:** Directly tagged as `Auto-Approved` and queued for payment disbursement.
    - **Total Amount ≥ $1,000 SGD:** Tagged as `Pending Review` to trigger compliance controls.
 5. **Database Ingestion:** Records, timestamps, and direct Google Drive file view links are synchronized into `Invoice_Master_Database` on Google Sheets.
-6. **HITL Governance (AppSheet):** High-value invoices appear in a dedicated queue on a custom AppSheet mobile/web app where purchasing managers can review the line items, inspect the original PDF via Drive, and record decisions (`Manager Approved` or `Rejected`) with a single click.
+6. **HITL Governance (AppSheet):** High-value invoices appear in a dedicated queue on a custom AppSheet mobile/web app where purchasing managers can review the line items, inspect the original PDF via Drive, and record decisions (`Approved` or `Rejected`) with a single click.
 
 ---
 
@@ -28,9 +28,11 @@ An automated Accounts Payable (AP) ingestion pipeline built with **Make.com**, *
 ---
 
 ## 📊 Sample Output
-| Timestamp | Vendor Name | Invoice Date | Total Amount | Currency | Line Items Summary | Status |
-| 2026-09-12 | Fresh Harvest Organics | 2026-09-12 | 485.60 | SGD | Spinach (6kg), Tomatoes (4 crates), Microgreens | Auto-Approved |
-| 2026-09-12 | Apex Gourmet Suppliers | 2026-09-12 | 3,292.89 | SGD | Miyazaki Wagyu A5 (6.8kg), MB7+ Ribeye | Pending Review |
+| Invoice ID | Vendor Name | Invoice Date | Total Amount | Status | File Link | Processed At |
+
+| FHO-2026-0892 | Fresh Harvest Organics | 2026-09-12 | 485.60 | Auto-Approved | 2026-09-12 |
+
+| AGP-2026-1408 | Apex Gourmet Suppliers | 2026-09-12 | 3,292.89 | Pending Review | 2026-09-12 |
 
 ---
 
