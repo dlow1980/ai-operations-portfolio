@@ -41,3 +41,6 @@ An automated Accounts Payable (AP) ingestion pipeline built with **Make.com**, *
 2. In Make.com, create a new scenario.
 3. Click the `...` menu on the bottom bar and select **Import Blueprint**.
 4. Re-authenticate your Google Drive, Google AI Studio, and Google Sheets connections.
+
+<img width="1768" height="572" alt="Project 1 scenario flow" src="https://github.com/user-attachments/assets/9a9b78a0-349d-4eb5-ab08-caddf5d85796" />
+
