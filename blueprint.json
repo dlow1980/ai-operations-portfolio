@@ -45,7 +45,7 @@
                                 "scoped": "true",
                                 "connection": "google-drive"
                             },
-                            "label": "Dave's Google Drive connection (daveplanet2005@yahoo.com.sg)"
+                            "label": "Dave's Google Drive connection (Your_email)"
                         },
                         "destination": {
                             "label": "My Drive"
@@ -166,7 +166,7 @@
                                 "scoped": "true",
                                 "connection": "google-drive"
                             },
-                            "label": "Dave's Google Drive connection (daveplanet2005@yahoo.com.sg)"
+                            "label": "Dave's Google Drive connection (Your_email)"
                         }
                     }
                 },
@@ -1016,7 +1016,7 @@
                                                 "scoped": "true",
                                                 "connection": "google"
                                             },
-                                            "label": "Dave's Google connection (daveplanet2005@yahoo.com.sg)"
+                                            "label": "Dave's Google connection (Your_email)"
                                         }
                                     }
                                 },
@@ -1360,7 +1360,7 @@
                                                 "scoped": "true",
                                                 "connection": "google"
                                             },
-                                            "label": "Dave's Google connection (daveplanet2005@yahoo.com.sg)"
+                                            "label": "Dave's Google connection (Your_email)"
                                         }
                                     }
                                 },
@@ -1531,7 +1531,7 @@
                             },
                             "mapper": {
                                 "to": [
-                                    "daveplanet2005@yahoo.com.sg"
+                                    "Your_email"
                                 ],
                                 "content": "\"https://www.appsheet.com/start/9a7c129f-253f-4d46-80b5-a9d0e8f09348#view=Invoice_Master_Database\"",
                                 "subject": "invoices approval",
@@ -1592,7 +1592,7 @@
                                                 "scoped": "true",
                                                 "connection": "google-email"
                                             },
-                                            "label": "Dave's Gmail connection (dlow1980@gmail.com)"
+                                            "label": "Dave's Gmail connection (Your_email)"
                                         }
                                     }
                                 },
