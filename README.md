@@ -30,7 +30,7 @@ Manual data entry, fragmented communication channels, and manual market surveill
 * **Objective:** Ingest heterogeneous invoice PDFs/images, bypass fragile legacy OCR templates, and enforce strict JSON schemas to populate relational tables and financial approval bots.
 * **Google Stack:** Google Drive trigger $\rightarrow$ Apps Script / Cloud Run parser $\rightarrow$ Gemini Multimodal API with `gemini_schema.json` $\rightarrow$ AppSheet Database sync & approval bot.
 * **Key Artifacts:**
-  * [Workflow Architecture Blueprint](./project-1-invoice-agent/workflow_blueprint.json)
+  * [Workflow Architecture Blueprint](project-1-invoice-agent/blueprint.json)
   * [Gemini Document Schema (`gemini_schema.json`)](./project-1-invoice-agent/gemini_schema.json)
   * [AppSheet Views & Audit Logs](./project-1-invoice-agent/screenshots/)
 ---
