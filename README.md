@@ -31,7 +31,7 @@ Manual data entry, fragmented communication channels, and manual market surveill
 * **Google Stack:** Google Drive trigger $\rightarrow$ Apps Script / Cloud Run parser $\rightarrow$ Gemini Multimodal API with `gemini_schema.json` $\rightarrow$ AppSheet Database sync & approval bot.
 * **Key Artifacts:**
   * [Workflow Architecture Blueprint](project-1-invoice-agent/blueprint.json)
-  * [Gemini Document Schema (`gemini_schema.json`)](./project-1-invoice-agent/gemini_schema.json)
+  * [Assets Workflow](project-1-invoice-agent/assets)
   * [AppSheet Views & Audit Logs](./project-1-invoice-agent/screenshots/)
 ---
 
