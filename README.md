@@ -60,5 +60,5 @@ ai-operations-portfolio/
 │
 ├── project-2-customer-support-router/
     ├── README.md                       # Routing logic & Vertex AI / RAG documentation
-    ├── workflow_blueprint.json         # Visual triage flow blueprint
-    └── knowledge_base_sample.md        # Reference knowledge base sample
+    ├── blueprint.json                  # Visual triage flow blueprint
+    └── sample                          # Reference knowledge base sample
