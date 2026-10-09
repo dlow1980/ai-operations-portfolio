@@ -17,8 +17,8 @@ Manual data entry, fragmented communication channels, and manual market surveill
 
 | Project | Primary Stack | Core Model / Service | Business Impact | Deep Dive |
 | :--- | :--- | :--- | :--- | :--- |
-| **01. Invoice Agent** | Google AppSheet, Apps Script, Drive API | Gemini 1.5 / 2.0 Flash (Multimodal) | 95%+ reduction in manual entry; enforces zero-shot structured JSON extraction | [View Project](./project-1-invoice-agent/) |
-| **02. Support Router** | Vertex AI Search / RAG, Gmail, Google Chat | Gemini Flash (Agent Routing & Triage) | Decreases first-touch latency (MTTR); automatically escalates priority incidents |
+| **01. Invoice Agent** | Google AppSheet, Apps Script, Drive API | Gemini 3.5 Flash (Multimodal) | 95%+ reduction in manual entry; enforces zero-shot structured JSON extraction | [View Project](./project-1-invoice-agent/) |
+| **02. Support Router** | Vertex AI Search / RAG, Gmail, Google Chat | Gemini 3.5 Flash (Agent Routing & Triage) | Decreases first-touch latency (MTTR); automatically escalates priority incidents |
 
 ---
 
@@ -32,7 +32,6 @@ Manual data entry, fragmented communication channels, and manual market surveill
 * **Key Artifacts:**
   * [Workflow Architecture Blueprint](project-1-invoice-agent/blueprint.json)
   * [Assets Workflow](project-1-invoice-agent/assets)
-  * [AppSheet Views & Audit Logs](./project-1-invoice-agent/screenshots/)
 ---
 
 ### 2. Intelligent Support Ticket Router & Triage
