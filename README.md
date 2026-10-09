@@ -40,7 +40,7 @@ Manual data entry, fragmented communication channels, and manual market surveill
 * **Objective:** Parse incoming queries from Gmail and Chat, classify sentiment and intent, perform retrieval against Drive knowledge docs, and draft grounded responses or escalate to teams.
 * **Google Stack:** Chat Webhook $\rightarrow$ Vertex AI Search / Text Embeddings $\rightarrow$ Contextual RAG synthesis $\rightarrow$ Automated draft creation or human-in-the-loop escalation.
 * **Key Artifacts:**
-* [Visual Triage Blueprint](./project-2-support-router/blueprint.json)
+  * [Visual Triage Blueprint](./project-2-support-router/blueprint.json)
   * [Sample and FAQ](./project-2-support-router/samples/customer-support-FAQ.md)
  
 ---
