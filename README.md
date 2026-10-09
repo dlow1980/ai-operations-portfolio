@@ -18,7 +18,7 @@ Manual data entry, fragmented communication channels, and manual market surveill
 | Project | Primary Stack | Core Model / Service | Business Impact | Deep Dive |
 | :--- | :--- | :--- | :--- | :--- |
 | **01. Invoice Agent** | Google AppSheet, Apps Script, Drive API | Gemini 3.5 Flash (Multimodal) | 95%+ reduction in manual entry; enforces zero-shot structured JSON extraction | [View Project](./project-1-invoice-agent/) |
-| **02. Support Router** | Vertex AI Search / RAG, Gmail, Google Chat | Gemini 3.5 Flash (Agent Routing & Triage) | Decreases first-touch latency (MTTR); automatically escalates priority incidents |
+| **02. Support Router** | Vertex AI Search / RAG, Gmail, Google Chat | Gemini 3.5 Flash (Agent Routing & Triage) | Decreases first-touch latency (MTTR); automatically escalates priority incidents | [View Project](./project-2-support-router/) |
 
 ---
 
@@ -37,9 +37,12 @@ Manual data entry, fragmented communication channels, and manual market surveill
 ### 2. Intelligent Support Ticket Router & Triage
 *Multi-stage classification and RAG pipeline running across Google Workspace communication channels.*
 
-* **Objective:** Parse incoming queries from Gmail and Google Chat, classify sentiment and intent, perform retrieval against Drive knowledge docs, and draft grounded responses or escalate to teams.
+* **Objective:** Parse incoming queries from Gmail and Chat, classify sentiment and intent, perform retrieval against Drive knowledge docs, and draft grounded responses or escalate to teams.
 * **Google Stack:** Chat Webhook $\rightarrow$ Vertex AI Search / Text Embeddings $\rightarrow$ Contextual RAG synthesis $\rightarrow$ Automated draft creation or human-in-the-loop escalation.
 * **Key Artifacts:**
+* [Visual Triage Blueprint](./project-2-support-router/blueprint.json)
+  * [Sample and FAQ](./project-2-support-router/samples/customer-support-FAQ.md)
+ 
 ---
 
 ## Repository Structure
