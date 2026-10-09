@@ -1,0 +1,1603 @@
+{
+    "name": "Integration HTTP",
+    "flow": [
+        {
+            "id": 2,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": null,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": -332,
+                    "y": -2
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "Support Inbound Test"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 9,
+            "module": "http:MakeRequest",
+            "version": 4,
+            "parameters": {
+                "tlsType": "",
+                "authenticationType": "noAuth"
+            },
+            "mapper": {
+                "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=YOUR_GEMINI_API_KEY",
+                "method": "post",
+                "headers": [
+                    {
+                        "name": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "timeout": "40",
+                "contentType": "json",
+                "inputMethod": "jsonString",
+                "shareCookies": false,
+                "parseResponse": true,
+                "allowRedirects": true,
+                "stopOnHttpError": true,
+                "jsonStringBodyContent": "{\r\n  \"system_instruction\": {\r\n    \"parts\": [\r\n      {\r\n        \"text\": \"You are a customer support triage agent. Classify the inquiry, assess sentiment, determine churn risk, and route to either TIER_1 or TIER_2. Output strict JSON matching the requested schema.\"\r\n      }\r\n    ]\r\n  },\r\n  \"contents\": [\r\n    {\r\n      \"parts\": [\r\n        {\r\n          \"text\": \"Sender: {{2.sender_email}}\\nSubject: {{2.subject}}\\nMessage:{{2.body}} \"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"generationConfig\": {\r\n    \"response_mime_type\": \"application/json\",\r\n    \"response_schema\": {\r\n      \"type\": \"OBJECT\",\r\n      \"properties\": {\r\n        \"route\": {\r\n          \"type\": \"STRING\",\r\n          \"enum\": [\r\n            \"TIER_1\",\r\n            \"TIER_2\"\r\n          ]\r\n        },\r\n        \"intent\": {\r\n          \"type\": \"STRING\"\r\n        },\r\n        \"urgency\": {\r\n          \"type\": \"INTEGER\"\r\n        },\r\n        \"sentiment\": {\r\n          \"type\": \"STRING\",\r\n          \"enum\": [\r\n            \"positive\",\r\n            \"neutral\",\r\n            \"negative\"\r\n          ]\r\n        },\r\n        \"summary\": {\r\n          \"type\": \"STRING\"\r\n        }\r\n      },\r\n      \"required\": [\r\n        \"route\",\r\n        \"intent\",\r\n        \"urgency\",\r\n        \"sentiment\",\r\n        \"summary\"\r\n      ]\r\n    }\r\n  }\r\n}",
+                "requestCompressedContent": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": -32,
+                    "y": -2
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "30e0cb0acd164ec7"
+                },
+                "restore": {
+                    "expect": {
+                        "method": {
+                            "mode": "chose",
+                            "label": "POST"
+                        },
+                        "headers": {
+                            "mode": "chose",
+                            "items": [
+                                null
+                            ]
+                        },
+                        "contentType": {
+                            "label": "application/jsonEnter data in the JSON format, as a string or using a data structure."
+                        },
+                        "inputMethod": {
+                            "label": "JSON stringEnter the JSON body as a raw text string. If values contain JSON reserved characters, you must escape them manually."
+                        },
+                        "shareCookies": {
+                            "mode": "chose"
+                        },
+                        "parseResponse": {
+                            "mode": "chose"
+                        },
+                        "allowRedirects": {
+                            "mode": "chose"
+                        },
+                        "paginationType": {
+                            "label": "Empty"
+                        },
+                        "queryParameters": {
+                            "mode": "chose"
+                        },
+                        "stopOnHttpError": {
+                            "mode": "chose"
+                        },
+                        "requestCompressedContent": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "tlsType": {
+                            "label": "Empty"
+                        },
+                        "authenticationType": {
+                            "label": "No authenticationUse when no credentials are required for the request."
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "authenticationType",
+                        "type": "select",
+                        "label": "Authentication type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "noAuth",
+                                "apiKey",
+                                "basicAuth",
+                                "oAuth"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "tlsType",
+                        "type": "select",
+                        "label": "Transport layer security (TLS)",
+                        "validate": {
+                            "enum": [
+                                "mTls",
+                                "tls"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "proxyKeychain",
+                        "type": "keychain:proxy",
+                        "label": "Proxy"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL",
+                        "required": true
+                    },
+                    {
+                        "name": "method",
+                        "type": "select",
+                        "label": "Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "get",
+                                "head",
+                                "post",
+                                "put",
+                                "patch",
+                                "delete",
+                                "options"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "headers",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name",
+                                    "required": true,
+                                    "validate": {
+                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                    }
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Header"
+                        },
+                        "type": "array",
+                        "label": "Headers"
+                    },
+                    {
+                        "name": "queryParameters",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name",
+                                    "required": true
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Parameter"
+                        },
+                        "type": "array",
+                        "label": "Query parameters"
+                    },
+                    {
+                        "name": "contentType",
+                        "type": "select",
+                        "label": "Body content type",
+                        "validate": {
+                            "enum": [
+                                "json",
+                                "multipart",
+                                "urlEncoded",
+                                "custom"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "parseResponse",
+                        "type": "boolean",
+                        "label": "Parse response",
+                        "required": true
+                    },
+                    {
+                        "name": "stopOnHttpError",
+                        "type": "boolean",
+                        "label": "Return error if HTTP request fails",
+                        "required": true
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout",
+                        "validate": {
+                            "max": 300,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "allowRedirects",
+                        "type": "boolean",
+                        "label": "Allow redirects",
+                        "required": true
+                    },
+                    {
+                        "name": "shareCookies",
+                        "type": "boolean",
+                        "label": "Share cookies with other HTTP modules",
+                        "required": true
+                    },
+                    {
+                        "name": "requestCompressedContent",
+                        "type": "boolean",
+                        "label": "Request compressed content",
+                        "required": true
+                    },
+                    {
+                        "name": "inputMethod",
+                        "type": "select",
+                        "label": "Body input method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "dataStructure",
+                                "jsonString"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "jsonStringBodyContent",
+                        "type": "text",
+                        "label": "Body content",
+                        "required": true
+                    },
+                    {
+                        "name": "paginationType",
+                        "type": "select",
+                        "label": "Pagination type",
+                        "validate": {
+                            "enum": [
+                                "offsetBased",
+                                "pageBased",
+                                "urlBased",
+                                "tokenBased"
+                            ]
+                        }
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "data",
+                        "type": "any",
+                        "label": "Data"
+                    },
+                    {
+                        "name": "statusCode",
+                        "type": "number",
+                        "label": "Status Code"
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "content-length",
+                                "type": "text",
+                                "label": "Content-Length"
+                            },
+                            {
+                                "name": "content-encoding",
+                                "type": "text",
+                                "label": "Content-Encoding"
+                            },
+                            {
+                                "name": "content-type",
+                                "type": "text",
+                                "label": "Content-Type"
+                            },
+                            {
+                                "name": "server",
+                                "type": "text",
+                                "label": "Server"
+                            },
+                            {
+                                "name": "cache-control",
+                                "type": "text",
+                                "label": "Cache-Control"
+                            },
+                            {
+                                "name": "set-cookie",
+                                "spec": {
+                                    "type": "text"
+                                },
+                                "type": "array",
+                                "label": "Set-Cookie"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Headers"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 11,
+            "module": "json:ParseJSON",
+            "version": 1,
+            "parameters": {
+                "type": ""
+            },
+            "mapper": {
+                "json": "{{9.data.candidates[].content.parts[].text}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 268,
+                    "y": -2
+                },
+                "restore": {
+                    "parameters": {
+                        "type": {
+                            "label": "Choose a data structure"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "type": "udt",
+                        "label": "Data structure"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "json",
+                        "type": "text",
+                        "label": "JSON string",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 12,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 568,
+                    "y": -2
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 13,
+                            "module": "google-drive:getAFile",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": null
+                            },
+                            "filter": {
+                                "name": "Tier 1 - Routine",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{11.route}}",
+                                            "b": "TIER_1",
+                                            "o": "text:equal:ci"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "file": "/YOUR_GOOGLE_DRIVE_FAQ_FILE_ID",
+                                "select": "value",
+                                "destination": "drive",
+                                "formatDrawings": "image/jpeg",
+                                "formatDocuments": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "formatSpreadsheets": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "formatPresentations": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 868,
+                                    "y": -152
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "97d64e5d2af2b048"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "file": {
+                                            "path": [
+                                                "Customer Support FAQ & Knowledge Base"
+                                            ]
+                                        },
+                                        "select": {
+                                            "label": "Select from the list"
+                                        },
+                                        "destination": {
+                                            "label": "My Drive"
+                                        },
+                                        "formatDrawings": {
+                                            "label": "JPEG"
+                                        },
+                                        "formatDocuments": {
+                                            "label": "MS Word Document"
+                                        },
+                                        "formatSpreadsheets": {
+                                            "label": "MS Excel"
+                                        },
+                                        "formatPresentations": {
+                                            "label": "MS PowerPoint"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-drive"
+                                            },
+                                            "label": "My Google Drive connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-restricted,google-drive",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "select",
+                                        "type": "select",
+                                        "label": "Enter a File ID",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "map",
+                                                "value"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "formatDocuments",
+                                        "type": "select",
+                                        "label": "Convert Google Documents Files to Format",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                                "application/pdf",
+                                                "application/vnd.oasis.opendocument.text",
+                                                "text/html",
+                                                "text/plain",
+                                                "application/rtf",
+                                                "text/markdown"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "formatSpreadsheets",
+                                        "type": "select",
+                                        "label": "Convert Google Spreadsheets Files to Format",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                                "application/x-vnd.oasis.opendocument.spreadsheet",
+                                                "application/pdf",
+                                                "text/csv"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "formatPresentations",
+                                        "type": "select",
+                                        "label": "Convert Google Slides Files to Format",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                                                "application/pdf"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "formatDrawings",
+                                        "type": "select",
+                                        "label": "Convert Google Drawings Files to Format",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "image/jpeg",
+                                                "image/png",
+                                                "image/svg+xml",
+                                                "application/pdf"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "destination",
+                                        "type": "select",
+                                        "label": "Choose a Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "file",
+                                        "type": "file",
+                                        "label": "File ID",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 16,
+                            "module": "http:MakeRequest",
+                            "version": 4,
+                            "parameters": {
+                                "tlsType": "",
+                                "authenticationType": "noAuth"
+                            },
+                            "mapper": {
+                                "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=YOUR_GEMINI_API_KEY",
+                                "method": "post",
+                                "headers": [
+                                    {
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "timeout": "40",
+                                "contentType": "json",
+                                "inputMethod": "jsonString",
+                                "shareCookies": false,
+                                "parseResponse": true,
+                                "allowRedirects": true,
+                                "stopOnHttpError": true,
+                                "jsonStringBodyContent": "{\r\n  \"system_instruction\": {\r\n    \"parts\": [\r\n      {\r\n        \"text\": \"You are a professional customer support specialist. Answer the customer's question clearly, warmly, and concisely using ONLY the provided FAQ context. Do not invent steps. If the information is missing from the FAQ, advise them that a team member will follow up shortly.\"\r\n      }\r\n    ]\r\n  },\r\n  \"contents\": [\r\n    {\r\n      \"parts\": [\r\n        {\r\n          \"text\": \"Sender: {{escapeJSON(2.sender_email)}}\\nSubject: {{escapeJSON(2.subject)}}\\nMessage: {{escapeJSON(2.body)}}\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"generationConfig\": {\r\n    \"temperature\": 0.2\r\n  }\r\n}",
+                                "requestCompressedContent": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1168,
+                                    "y": -152
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "b4b29b88749465ee"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "method": {
+                                            "mode": "chose",
+                                            "label": "POST"
+                                        },
+                                        "headers": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "contentType": {
+                                            "label": "application/jsonEnter data in the JSON format, as a string or using a data structure."
+                                        },
+                                        "inputMethod": {
+                                            "label": "JSON stringEnter the JSON body as a raw text string. If values contain JSON reserved characters, you must escape them manually."
+                                        },
+                                        "shareCookies": {
+                                            "mode": "chose"
+                                        },
+                                        "parseResponse": {
+                                            "mode": "chose"
+                                        },
+                                        "allowRedirects": {
+                                            "mode": "chose"
+                                        },
+                                        "paginationType": {
+                                            "label": "Empty"
+                                        },
+                                        "queryParameters": {
+                                            "mode": "chose"
+                                        },
+                                        "stopOnHttpError": {
+                                            "mode": "chose"
+                                        },
+                                        "requestCompressedContent": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "tlsType": {
+                                            "label": "Empty"
+                                        },
+                                        "authenticationType": {
+                                            "label": "No authenticationUse when no credentials are required for the request."
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "authenticationType",
+                                        "type": "select",
+                                        "label": "Authentication type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "noAuth",
+                                                "apiKey",
+                                                "basicAuth",
+                                                "oAuth"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "tlsType",
+                                        "type": "select",
+                                        "label": "Transport layer security (TLS)",
+                                        "validate": {
+                                            "enum": [
+                                                "mTls",
+                                                "tls"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "proxyKeychain",
+                                        "type": "keychain:proxy",
+                                        "label": "Proxy"
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "method",
+                                        "type": "select",
+                                        "label": "Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "get",
+                                                "head",
+                                                "post",
+                                                "put",
+                                                "patch",
+                                                "delete",
+                                                "options"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true,
+                                                    "validate": {
+                                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Header"
+                                        },
+                                        "type": "array",
+                                        "label": "Headers"
+                                    },
+                                    {
+                                        "name": "queryParameters",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Parameter"
+                                        },
+                                        "type": "array",
+                                        "label": "Query parameters"
+                                    },
+                                    {
+                                        "name": "contentType",
+                                        "type": "select",
+                                        "label": "Body content type",
+                                        "validate": {
+                                            "enum": [
+                                                "json",
+                                                "multipart",
+                                                "urlEncoded",
+                                                "custom"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "parseResponse",
+                                        "type": "boolean",
+                                        "label": "Parse response",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "stopOnHttpError",
+                                        "type": "boolean",
+                                        "label": "Return error if HTTP request fails",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "timeout",
+                                        "type": "uinteger",
+                                        "label": "Timeout",
+                                        "validate": {
+                                            "max": 300,
+                                            "min": 1
+                                        }
+                                    },
+                                    {
+                                        "name": "allowRedirects",
+                                        "type": "boolean",
+                                        "label": "Allow redirects",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "shareCookies",
+                                        "type": "boolean",
+                                        "label": "Share cookies with other HTTP modules",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "requestCompressedContent",
+                                        "type": "boolean",
+                                        "label": "Request compressed content",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "inputMethod",
+                                        "type": "select",
+                                        "label": "Body input method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "dataStructure",
+                                                "jsonString"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "jsonStringBodyContent",
+                                        "type": "text",
+                                        "label": "Body content",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "paginationType",
+                                        "type": "select",
+                                        "label": "Pagination type",
+                                        "validate": {
+                                            "enum": [
+                                                "offsetBased",
+                                                "pageBased",
+                                                "urlBased",
+                                                "tokenBased"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "data",
+                                        "type": "any",
+                                        "label": "Data"
+                                    },
+                                    {
+                                        "name": "statusCode",
+                                        "type": "number",
+                                        "label": "Status Code"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "content-length",
+                                                "type": "text",
+                                                "label": "Content-Length"
+                                            },
+                                            {
+                                                "name": "content-encoding",
+                                                "type": "text",
+                                                "label": "Content-Encoding"
+                                            },
+                                            {
+                                                "name": "content-type",
+                                                "type": "text",
+                                                "label": "Content-Type"
+                                            },
+                                            {
+                                                "name": "server",
+                                                "type": "text",
+                                                "label": "Server"
+                                            },
+                                            {
+                                                "name": "cache-control",
+                                                "type": "text",
+                                                "label": "Cache-Control"
+                                            },
+                                            {
+                                                "name": "set-cookie",
+                                                "spec": {
+                                                    "type": "text"
+                                                },
+                                                "type": "array",
+                                                "label": "Set-Cookie"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Headers"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 17,
+                            "module": "google-email:sendAnEmail",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": null
+                            },
+                            "mapper": {
+                                "to": [
+                                    "{{2.sender_email}}"
+                                ],
+                                "content": "{{16.data.candidates[].content.parts[].text}}",
+                                "subject": "Re:{{2.subject}}",
+                                "bodyType": "rawHtml"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1468,
+                                    "y": -152
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "9dee2c4b86e181d0"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "from": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "bodyType": {
+                                            "label": "Raw HTML"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        },
+                                        "emailHeaders": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-email"
+                                            },
+                                            "label": "My Gmail connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-email",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address",
+                                            "required": true,
+                                            "validate": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "bodyType",
+                                        "type": "select",
+                                        "label": "Body type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "rawHtml",
+                                                "collection"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "filename",
+                                                    "type": "filename",
+                                                    "label": "File name",
+                                                    "required": true,
+                                                    "semantic": "file:name"
+                                                },
+                                                {
+                                                    "name": "data",
+                                                    "type": "buffer",
+                                                    "label": "Data",
+                                                    "required": true,
+                                                    "semantic": "file:data"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Attachment"
+                                        },
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "CC recipients"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "BCC recipients"
+                                    },
+                                    {
+                                        "name": "emailHeaders",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "key",
+                                                    "type": "text",
+                                                    "label": "Key",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Email header"
+                                        },
+                                        "type": "array",
+                                        "label": "Additional email headers"
+                                    },
+                                    {
+                                        "name": "content",
+                                        "type": "text",
+                                        "label": "Content"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 14,
+                            "module": "google-sheets:addRow",
+                            "version": 2,
+                            "parameters": {
+                                "__IMTCONN__": null
+                            },
+                            "filter": {
+                                "name": "Tier 1 - Escalation",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{11.route}}",
+                                            "b": "TIER_2",
+                                            "o": "text:equal:ci"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "from": "drive",
+                                "mode": "select",
+                                "values": {
+                                    "Intent": "{{11.intent}}",
+                                    "Status": "Open",
+                                    "Subject": "{{2.subject}}",
+                                    "Summary": "{{11.summary}}",
+                                    "Urgency": "{{11.urgency}}",
+                                    "Sentiment": "{{11.sentiment}}",
+                                    "Timestamp": "{{now}}",
+                                    "Customer Email": "{{2.sender_email}}"
+                                },
+                                "sheetId": "Sheet1",
+                                "spreadsheetId": "/YOUR_SPREADSHEET_ID",
+                                "includesHeaders": true,
+                                "insertDataOption": "INSERT_ROWS",
+                                "useColumnHeaders": true,
+                                "valueInputOption": "USER_ENTERED",
+                                "insertUnformatted": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 868,
+                                    "y": 148
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "6cae6e9b225dec53"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "from": {
+                                            "label": "My Drive"
+                                        },
+                                        "mode": {
+                                            "label": "Search by path"
+                                        },
+                                        "sheetId": {
+                                            "label": "Sheet1"
+                                        },
+                                        "spreadsheetId": {
+                                            "path": [
+                                                "Support_Tickets",
+                                                "Tier_2_ticket"
+                                            ]
+                                        },
+                                        "includesHeaders": {
+                                            "label": "Yes"
+                                        },
+                                        "insertDataOption": {
+                                            "mode": "chose",
+                                            "label": "Insert rows"
+                                        },
+                                        "useColumnHeaders": {
+                                            "label": "Yes"
+                                        },
+                                        "valueInputOption": {
+                                            "mode": "chose",
+                                            "label": "User entered"
+                                        },
+                                        "insertUnformatted": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "mode",
+                                        "type": "select",
+                                        "label": "Search Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "select",
+                                                "fromAll",
+                                                "map"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "insertUnformatted",
+                                        "type": "boolean",
+                                        "label": "Unformatted",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "valueInputOption",
+                                        "type": "select",
+                                        "label": "Value input option",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "USER_ENTERED",
+                                                "RAW"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "insertDataOption",
+                                        "type": "select",
+                                        "label": "Insert data option",
+                                        "validate": {
+                                            "enum": [
+                                                "INSERT_ROWS",
+                                                "OVERWRITE"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "spreadsheetId",
+                                        "type": "file",
+                                        "label": "Spreadsheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "sheetId",
+                                        "type": "select",
+                                        "label": "Sheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "includesHeaders",
+                                        "type": "select",
+                                        "label": "Table contains headers",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "useColumnHeaders",
+                                        "type": "select",
+                                        "label": "Use column headers as IDs of the columns",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "values",
+                                        "spec": [
+                                            {
+                                                "name": "Timestamp",
+                                                "type": "text",
+                                                "label": "Timestamp (A)"
+                                            },
+                                            {
+                                                "name": "Customer Email",
+                                                "type": "text",
+                                                "label": "Customer Email (B)"
+                                            },
+                                            {
+                                                "name": "Subject",
+                                                "type": "text",
+                                                "label": "Subject (C)"
+                                            },
+                                            {
+                                                "name": "Intent",
+                                                "type": "text",
+                                                "label": "Intent (D)"
+                                            },
+                                            {
+                                                "name": "Urgency",
+                                                "type": "text",
+                                                "label": "Urgency (E)"
+                                            },
+                                            {
+                                                "name": "Sentiment",
+                                                "type": "text",
+                                                "label": "Sentiment (F)"
+                                            },
+                                            {
+                                                "name": "Summary",
+                                                "type": "text",
+                                                "label": "Summary (G)"
+                                            },
+                                            {
+                                                "name": "Status",
+                                                "type": "text",
+                                                "label": "Status (H)"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Values in columns",
+                                        "metadata": [
+                                            [
+                                                [
+                                                    "Timestamp",
+                                                    "Customer Email",
+                                                    "Subject",
+                                                    "Intent",
+                                                    "Urgency",
+                                                    "Sentiment",
+                                                    "Summary",
+                                                    "Status"
+                                                ]
+                                            ]
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 18,
+                            "module": "google-email:sendAnEmail",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": null
+                            },
+                            "mapper": {
+                                "to": [
+                                    "support-team@example.com"
+                                ],
+                                "content": "🚨 High-Priority Support Escalation\r\nCustomer: {{2.sender_email}}\r\nUrgency: {{11.urgency}}/10 | Sentiment: {{11.sentiment}}\r\nIntent: {{11.intent}}\r\n\r\nExecutive Summary:\r\n{{11.summary}}\r\n\r\nFull Message:\r\n\"{{2.body}}\"",
+                                "subject": "#support-escalations",
+                                "bodyType": "rawHtml"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1168,
+                                    "y": 148
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "c408513a9b92137c"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "from": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "bodyType": {
+                                            "label": "Raw HTML"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        },
+                                        "emailHeaders": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-email"
+                                            },
+                                            "label": "My Gmail connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-email",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address",
+                                            "required": true,
+                                            "validate": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "bodyType",
+                                        "type": "select",
+                                        "label": "Body type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "rawHtml",
+                                                "collection"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "filename",
+                                                    "type": "filename",
+                                                    "label": "File name",
+                                                    "required": true,
+                                                    "semantic": "file:name"
+                                                },
+                                                {
+                                                    "name": "data",
+                                                    "type": "buffer",
+                                                    "label": "Data",
+                                                    "required": true,
+                                                    "semantic": "file:data"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Attachment"
+                                        },
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "CC recipients"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "BCC recipients"
+                                    },
+                                    {
+                                        "name": "emailHeaders",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "key",
+                                                    "type": "text",
+                                                    "label": "Key",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Email header"
+                                        },
+                                        "type": "array",
+                                        "label": "Additional email headers"
+                                    },
+                                    {
+                                        "name": "content",
+                                        "type": "text",
+                                        "label": "Content"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}
