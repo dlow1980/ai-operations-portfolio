@@ -1,0 +1,111 @@
+{
+  "name": "Autonomous Market Intelligence Agent - Free RSS Edition",
+  "flow": [
+    {
+      "id": 2,
+      "module": "rss:ActionReadArticles",
+      "version": 4,
+      "parameters": {
+        "include": []
+      },
+      "mapper": {
+        "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS",
+        "gzip": true,
+        "password": "",
+        "username": "",
+        "maxResults": "5"
+      },
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "util:TextAggregator",
+      "version": 1,
+      "parameters": {
+        "feeder": 2,
+        "rowSeparator": "\n"
+      },
+      "mapper": {
+        "value": "Title: {{2.title}} | URL: {{2.url}} | Description: {{2.description}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 1,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "tlsType": "",
+        "authenticationType": "noAuth"
+      },
+      "mapper": {
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={{YOUR_GEMINI_API_KEY}}",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "timeout": "40",
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "shareCookies": false,
+        "parseResponse": true,
+        "allowRedirects": true,
+        "stopOnHttpError": true,
+        "jsonStringBodyContent": "{\n  \"system_instruction\": {\n    \"parts\": [\n      {\n        \"text\": \"You are an executive market analyst. Take the provided raw news articles and turn them into a clean, modern HTML briefing suitable for email. Do NOT include markdown blocks, backticks, ```html code fences, <html>, or <body> tags. Use inline styling, <h3> headings, concise bullets (<ul>, <li>), and hyperlink source references using the provided URLs (<a href='...'>).\"\n      }\n    ]\n  },\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Here are the top market headlines from this morning:\\n\\n{{3.text}}\\n\\nPlease synthesize these into an executive summary briefing.\"\n        }\n      ]\n    }\n  ]\n}",
+        "requestCompressedContent": true
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "parameters": {},
+      "mapper": {
+        "to": [
+          "recipient@example.com"
+        ],
+        "content": "{{replace(replace(1.data.candidates[1].content.parts[1].text; \"```html\"; \"\"); \"```\"; \"\")}}",
+        "subject": "Market Intelligence Briefing - {{formatDate(now; \"YYYY-MM-DD\")}}",
+        "bodyType": "rawHtml"
+      },
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "sequential": false
+    },
+    "designer": {
+      "orphans": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Autonomous Market Intelligence Agent - Search Grounding Pro",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "tlsType": "",
+        "authenticationType": "noAuth"
+      },
+      "mapper": {
+        "url": "[https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=](https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=){{YOUR_GEMINI_API_KEY}}",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "timeout": "60",
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "shareCookies": false,
+        "parseResponse": true,
+        "allowRedirects": true,
+        "stopOnHttpError": true,
+        "jsonStringBodyContent": "{\n  \"system_instruction\": {\n    \"parts\": [\n      {\n        \"text\": \"You are an executive market intelligence analyst. Output raw, valid HTML for an email body. Do not include markdown code fences, backticks, ```html blocks, <html>, or <body> wrapper tags. Use responsive inline styles, <h3> section headers, concise bullet points (<ul>, <li>), and hyperlinked citations (<a href='...'>).\"\n      }\n    ]\n  },\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Provide an executive briefing on the top global market movements, macroeconomic indicators, and major company earnings from the past week. Ground your findings with live Google Search data and embed verified source URLs as clickable anchor links.\"\n        }\n      ]\n    }\n  ],\n  \"tools\": [\n    {\n      \"google_search\": {}\n    }\n  ]\n}",
+        "requestCompressedContent": true
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 2,
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "parameters": {},
+      "mapper": {
+        "to": [
+          "recipient@example.com"
+        ],
+        "content": "{{replace(replace(1.data.candidates[1].content.parts[1].text; \"```html\"; \"\"); \"```\"; \"\")}}",
+        "subject": "Market Intelligence Executive Briefing (Live Grounded) - {{formatDate(now; \"YYYY-MM-DD\")}}",
+        "bodyType": "rawHtml"
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "sequential": false
+    },
+    "designer": {
+      "orphans": []
+    }
+  }
+}
