@@ -73,6 +73,11 @@ ai-operations-portfolio/
 │   └── Sample                          # Sample
 │
 ├── project-2-customer-support-router/
-    ├── README.md                       # Routing logic & Vertex AI / RAG documentation
-    ├── blueprint.json                  # Visual triage flow blueprint
-    └── sample                          # Reference knowledge base sample
+|   ├── README.md                       # Routing logic & Vertex AI / RAG documentation
+|   ├── blueprint.json                  # Visual triage flow blueprint
+|   └── sample                          # Reference knowledge base sample
+|
+└── project-3-market-intelligence-agent/
+    ├── README.md                       # Research prompt design & validation rules
+    ├── blueprint.json                  # Scheduled agent workflow
+    └── sample_email                    # Autonomous output artifact
