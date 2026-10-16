@@ -10,6 +10,7 @@ Manual data entry, fragmented communication channels, and manual market surveill
 
 1. **Autonomous Invoice Processing Agent:** Lowers processing turnaround from hours to seconds by pairing multimodal Gemini extraction with structured JSON schemas and AppSheet database sync.
 2. **Support Ticket Triage & Resolution Router:** Streamlines Tier-1 operations via intent classification, semantic RAG search over Drive/Knowledge docs, and Google Chat/Gmail dispatch.
+3. **Competitive Intelligence Gathering Agent:** Runs automated market syntheses using Google Search-grounded Gemini workflows and automatically compiles executive PDF briefs into Google Drive.
 
 ---
 
@@ -19,6 +20,7 @@ Manual data entry, fragmented communication channels, and manual market surveill
 | :--- | :--- | :--- | :--- | :--- |
 | **01. Invoice Agent** | Google AppSheet, Apps Script, Drive API | Gemini 3.5 Flash (Multimodal) | 95%+ reduction in manual entry; enforces zero-shot structured JSON extraction | [View Project](./project-1-invoice-agent/) |
 | **02. Support Router** | Vertex AI Search / RAG, Gmail, Google Chat | Gemini 3.5 Flash (Agent Routing & Triage) | Decreases first-touch latency (MTTR); automatically escalates priority incidents | [View Project](./project-2-support-router/) |
+| **03. Research Agent** | Apps Script / Cloud Functions, Google Docs | Grounded Gemini (Search Tools) | Delivers 5+ hours/week analyst savings via hands-free briefing distribution | [View Project](./project-3-market-intelligence-agent/) |
 
 ---
 
