@@ -44,6 +44,18 @@ Manual data entry, fragmented communication channels, and manual market surveill
 * **Key Artifacts:**
   * [Visual Triage Blueprint](./project-2-support-router/blueprint.json)
   * [Sample and FAQ](./project-2-support-router/samples/customer-support-FAQ.md)
+ ---
+
+### 3. Autonomous Competitive Research Agent
+*Scheduled synthesis engine combining Google Search grounding with dynamic document generation.*
+
+* **Objective:** Monitor competitors, industry signals, and pricing updates; generate grounded syntheses, and compile executive-ready PDF briefs exported directly to Google Drive.
+* **Google Stack:** Time-driven Apps Script / Cloud Scheduler $\rightarrow$ Gemini with Google Search Grounding $\rightarrow$ Google Docs / PDF Engine $\rightarrow$ Shared Drive delivery.
+* **Key Artifacts:**
+  * [Workflow Free RSS Blueprint](./project-3-market-intelligence-agent/workflows/blueprint-free-rss.json)
+  * [Workflow Google Grounding Blueprint](./project-3-market-intelligence-agent/workflows/blueprint-pro-search-grounding.json)
+  * [Generated Sample Briefing Report](./project-3-market-intelligence-agent/sample/email-1.png)
+ 
  
 ---
 
